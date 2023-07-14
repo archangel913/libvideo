@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.ClearScript.V8;
+using System;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using VideoLibrary.Helpers;
@@ -30,7 +31,22 @@ namespace VideoLibrary
 
         private string DescrambleNSignature(string js, string signature)
         {
-            // TODO Add Native Descramble for "N" Signature
+            var descrambleFunction = GetDescrambleFunctionLines(js);
+
+            if (descrambleFunction?.Item1 != null && descrambleFunction?.Item2 != null)
+            {
+                string sign;
+                using (var engine = new V8ScriptEngine())
+                {
+                    string v = descrambleFunction.Item1;
+                    string f = descrambleFunction.Item2.Insert(12, " descramble");
+                    f = f.Replace($"{v}=", "");
+                    engine.Execute($"{f};");
+                    sign = engine.Script.descramble(signature);
+                };
+                signature = sign;
+            }
+
             return signature;
         }
 
@@ -57,7 +73,7 @@ namespace VideoLibrary
 
             if (!string.IsNullOrWhiteSpace(functionName))
             {
-                var decipherDefinitionBody = Regex.Match(js, $@"{Regex.Escape(functionName)}=function\(\w+(,\w+)?\)\{{(?s:.*?)\}};", RegexOptions.Singleline);
+                var decipherDefinitionBody = Regex.Match(js, $@"{Regex.Escape(functionName)}=function\(\w+(,\w+)?\)\{{(?s:.*?)return b\.join\(\""\""\)\}};", RegexOptions.Singleline);
 
                 if (decipherDefinitionBody.Success)
                 {

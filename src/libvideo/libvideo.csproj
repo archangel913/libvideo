@@ -17,7 +17,7 @@ Find us on GitHub at https://github.com/omansak/libvideo</Description>
 		<RepositoryUrl>https://github.com/omansak/libvideo</RepositoryUrl>
 		<RootNamespace>VideoLibrary</RootNamespace>
 		<Version>3.2.3</Version>
-		<TargetFramework>netstandard1.1</TargetFramework>
+		<TargetFramework>net6.0</TargetFramework>
 		<Title>libvideo</Title>
 		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
 		<AssemblyVersion>3.2.3.0</AssemblyVersion>
@@ -26,10 +26,6 @@ Find us on GitHub at https://github.com/omansak/libvideo</Description>
 		<PackageIcon>icon_586.png</PackageIcon>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 	</PropertyGroup>
-
-	<ItemGroup>
-		<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-	</ItemGroup>
 
 	<ItemGroup>
 		<None Include="..\..\icons\icon_586.png">
@@ -44,6 +40,11 @@ Find us on GitHub at https://github.com/omansak/libvideo</Description>
 			<Pack>True</Pack>
 			<PackagePath></PackagePath>
 		</None>
+		<None Include="..\.editorconfig" Link=".editorconfig" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <PackageReference Include="Microsoft.ClearScript" Version="7.4.2" />
 	</ItemGroup>
 
 </Project>
